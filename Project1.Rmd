@@ -1,0 +1,156 @@
+---
+title: Bryce McGowens snubbed from Big Ten Freshman of the year
+author: Noah Tassello
+date: '2022-04-01'
+slug: bryce-mcgowens-snubbed-from-big-ten-freshman-of-the-year
+categories: []
+tags: []
+---
+
+The real question is was Bryce McGowens snubbed from winning the Big Ten Freshman player of the year? The reason why he probably didn't win the Freshman player of the year could be from how poorly the Nebraska basketball 2021-2022 season was.
+
+The winner of the Big Ten freshman player of the year was Malaki Branham, a player from Ohio State, but here's the thing Ohio State was better than Nebraska. Also, if you think about it not a lot of people like Nebraska because of how good we used to be in football. 
+```{r warning=FALSE, message=FALSE, echo=FALSE}
+library(tidyverse)
+library(gt)
+library(ggbump)
+library(ggalt)
+```
+
+```{r warning=FALSE, message=FALSE, echo=FALSE}
+ncaa <- read_csv("players22 (2).csv")
+```
+
+
+```{r warning=FALSE, message=FALSE, echo=FALSE}
+bigten <- ncaa %>% filter(Conference == "Big Ten")
+```
+
+
+```{r warning=FALSE, message=FALSE, echo=FALSE}
+frosh <- bigten %>% filter(Class == "FR")
+```
+
+```{r warning=FALSE, message=FALSE, echo=FALSE}
+topfroshlist <- c("Chucky Hepburn", "Bryce McGowens", "Malaki Branham", "Max Christie", "Moussa Diabate")
+
+topfrosh <- frosh %>% filter(Player %in% topfroshlist) %>% select(Player, MP, PTS) %>% arrange(desc(PTS))
+```
+
+As you can see Bryce McGowens is the better player compared to the other freshman candidates. The comparison of the total amount of minutes and points for each player is to show who is the better freshman candidate and who should have won the freshman player of the year for the Big Ten.
+
+```{r warning=FALSE, message=FALSE, echo=FALSE}
+topfrosh %>% 
+  gt() %>%
+  cols_label(
+    MP = "Minutes Played",
+    PTS = "Points"
+  ) %>% 
+  tab_header(
+    title = "The Top 5 Big Ten Freshman Players", 
+    subtitle = "Bryce McGowens snubbed from Big Ten freshman of the year"
+  )%>% tab_style(
+    style = cell_text(colo = "black", weight = "bold", align = "left"), 
+    locations = cells_title("title")) %>%
+  tab_style(
+    style = cell_text(color = "black", align = "left"),
+    locations = cells_title("subtitle"))  %>%
+  tab_source_note(
+    source_note = md("**By**: Noah Tassello | **Source** Sports reference")) %>%
+  tab_style(
+    locations = cells_column_labels(columns = everything()),
+    style = list(
+      cell_borders(sides = "bottom", weight = px(3)),
+      cell_text(weight = "bold", size = 12)
+    )
+  ) %>% 
+  tab_style(
+    style = list(
+      cell_fill(color = "red"),
+      cell_text(color = "white")
+    ), 
+    locations = cells_body(
+      rows = Player == "Bryce McGowens"
+    )
+  )
+```
+
+Looking at the chart, you can see how Bryce was compared to the winner of the Big Ten freshman player of the year, Malaki Branham, he played for Ohio State and they were better than Nebraska in basketball. Ohio State made it to March Madness while Nebraska missed March Madness and the NIT.
+
+Something is not right here... It looks like Bryce is better than the other candidates.
+
+Bryce will most likely be one of the best players to go to the NBA from Nebraska, if not the best player coming from Nebraska. 
+
+```{r warning=FALSE, message=FALSE, echo=FALSE}
+bm <- frosh %>% filter(Player == "Bryce McGowens")
+ch <- frosh %>% filter(Player == "Chucky Hepburn")
+mb <- frosh %>% filter(Player == "Malaki Branham")
+mc <- frosh %>% filter(Player == "Max Christie")
+md <- frosh %>% filter(Player == "Moussa Diabate")
+
+
+ggplot() + geom_point(data = topfrosh, aes(x=MP, y=PTS), color="grey") +
+  geom_point(data = bm, aes(x=MP, y=PTS), color="red") +
+  geom_text(data = bm, aes(x=MP - 23, y=PTS+15, label=Player)) + 
+  geom_point(data = ch, aes(x=MP, y=PTS), color="blue") +
+  geom_text(data = ch, aes(x=MP -.09, y=PTS+10, label=Player)) +
+  geom_point(data = mb, aes(x=MP, y=PTS), color="green") +
+  geom_text(data = mb, aes(x=MP -.09, y=PTS+10, label=Player)) +
+  geom_point(data = mc, aes(x=MP, y=PTS), color="blue") +
+  geom_text(data = mc, aes(x=MP -.09, y=PTS+10, label=Player)) +
+  geom_point(data = md, aes(x=MP, y=PTS), color="blue") +
+  geom_text(data = md, aes(x=MP + 18, y=PTS+10, label=Player)) +
+  labs(
+    x = "Minutes Played",
+    y = "Points",
+    title = "A Clear Winner with Bryce McGowens the Clear Winner",
+    subtitle = "Bryce played better than the other candidates",
+    caption = "Source: Sports Reference | By Noah Tassello" +
+  theme_minimal()
+  )
+```
+
+There is a clear winner by looking at this chart. The green represents the Big Ten freshman of the year winner while the red represents Bryce which shows that he did way better than the actual winner. According to this chart the actual winner should be Brcye McGowens.
+
+
+In this chart this shows how the top 5 candidates were compared to other Big Ten players, if you looks closely, you can see Bryce is also one of the best players in the Big Ten. So why didn't he win the award? Was it an attack toward Nebraska or even Nebraska basketball?
+
+```{r warning=FALSE, message=FALSE, echo=FALSE}
+ggplot() +
+  geom_point(data = bigten, aes(x = MP, y = PTS), color = "light grey") +
+  geom_point(data = bm, aes(x=MP, y=PTS), color="red") +
+  geom_text(data = bm, aes(x=MP -.09 , y=PTS+25, label=Player)) + 
+  geom_point(data = ch, aes(x=MP, y=PTS), color="blue") +
+  geom_text(data = ch, aes(x=MP -.09, y=PTS-20, label=Player)) +
+  geom_point(data = mb, aes(x=MP, y=PTS), color="green") +
+  geom_text(data = mb, aes(x=MP -.09, y=PTS+25, label=Player)) +
+  geom_point(data = mc, aes(x=MP, y=PTS), color="blue") +
+  geom_text(data = mc, aes(x=MP -.09, y=PTS+20, label=Player)) +
+  geom_point(data = md, aes(x=MP, y=PTS), color="blue") +
+  geom_text(data = md, aes(x=MP + 15, y=PTS+25, label=Player)) + 
+  geom_encircle(data = mb, aes(x= MP, y=PTS), s_shape = .07, expand = .00001, color="red") +
+  geom_encircle(data = bm, aes(x= MP, y=PTS), s_shape = .07, expand = .00001, color="blue") +
+  labs(
+    title = "Malaki Branham still behind Bryce McGowens",
+    subtitle = "Comparison of the top five players and the Big Ten",
+    caption = "Source: Sports Reference | By Noah Tassello",
+    x = "Minutes Played",
+    y = "Points"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    axis.title = element_text(size = 8), 
+    plot.subtitle = element_text(size=10), 
+    panel.grid.minor = element_blank()
+  )
+```
+
+
+McGowens has more minutes played and more points compared to the others. So why do you think? It has to be because Nebraska was the worst team in the Big Ten. It's crazy that Bryce didn't win the award, he is the for sure winner by looking at his stats compared to other players. 
+
+
+Note: The code for the article can found [here]()
+
+
+
