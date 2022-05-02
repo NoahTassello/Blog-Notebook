@@ -1,0 +1,139 @@
+---
+title: Will Stephen Curry bring the Warriors to the promise land?
+author: Noah Tassello
+date: '2022-05-01'
+slug: will-stephen-curry-bring-the-warriors-to-the-promise-land
+categories: []
+tags: []
+---
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+library(tidyverse)
+library(gt)
+library(ggalt)
+```
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+nba <- read_csv("Stats")
+```
+The Golden State Warriors started off the season without Klay Thompson, but still showed dominance without him with Jordan Poole stepping up from the three point line. With Stephen Curry also breaking the record of most three pointers made in a career and is still continuing to increase that number.
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+postseason <- c("Minnesota Timberwolves*", "Memphis Grizzlies*", "Milwaukee Bucks*", "Phoenix Suns*", "Atlanta Hawks*", "Utah Jazz*", "Brooklyn Nets*", "Denver Nuggets*", "Boston Celtics*", "Chicago Bulls*", "Golden State Warriors*", "Philadelphia 76ers*", "Toronto Raptors*","New Orleans Pelicans*", "Dallas Mavericks*", "Miami Heat*")
+```
+
+The Golden State Warriors has a backcourt duo that can catch fire from three at any point in the game. There is a reason why they finished 2nd in a stacked Western Conference. The warriors have had a problem with injuries this season with Klay being out at the beginning of the season and Curry missing some time due to injury. With other shooters on the team, they are still not one of the best shooting teams in the NBA, with the Philadelphia 76ers is the best shooting team this season with Joel Embiid dominating at the paint and now James Harden finally scoring for a team.
+
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+playoffs <- nba %>%
+  filter(Team %in% postseason) %>%
+  select(Team, PTS, FGPer, FTPer)
+```
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+gs <- playoffs %>% filter(Team == "Golden State Warriors*")
+  
+ggplot() +
+  geom_point(data = nba, aes(x= `FGPer`, y= `FTPer`), color="grey") +
+  geom_point(data = gs, aes(x= `FGPer`, y= `FTPer`)) + 
+  geom_text(data = gs, aes(x=`FGPer` +.01, y = `FTPer` +.001, label = Team)) +
+  geom_encircle(data = gs, aes(x= `FGPer`+.01, y= `FTPer`+.001), s_shape=+.1, expand=+.05, color= "blue") +
+  labs(title="Let Shooters Shoot", subtitle="Warriors have shooters on their team with average percentages from FT and FG", x= "By: Noah Tassello | Source: Sports Reference") + 
+  theme_minimal() + 
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    axis.title = element_text(size = 8), 
+    plot.subtitle = element_text(size=10), 
+    panel.grid.minor = element_blank()
+)
+```
+
+
+With the playoffs in the second round, the Warriors continue to stay hot from three. Jordan Poole has stepped up in the playoffs, while getting significant minutes. Curry is still doing Curry things. You can hate the guy, but he has proven to people that you should respect what he has done in the NBA. Compared to playoff teams the Warriors are not one the best teams, but they have an above average shooting percentage from free throws which could impact the game significantly. 
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+playoffs %>%
+  gt() %>%
+  cols_label(
+    PTS = "Points",
+    FGPer = "Field Goal Percentage",
+    FTPer = "Free Throw Percentage"
+  ) %>%
+  tab_header(
+    title = "Do the Golden State Warriors have a shot for a championship?",
+    subtitle = "Warriors are dominate with or without primary shooters"
+  ) %>% tab_style(
+    style = cell_text(color = "black", weight = "bold", align = "left"),
+    locations = cells_title("title")
+  ) %>% tab_style(
+    style = cell_text(color = "black", align = "left"),
+    locations = cells_title("subtitle")
+  ) %>%
+  tab_source_note(
+    source_note = md("**By:** Noah Tassello  |  **Source:** Sports Reference")
+  ) %>%
+  tab_style(
+     locations = cells_column_labels(columns = everything()),
+     style = list(
+       cell_borders(sides = "bottom", weight = px(3)),
+       cell_text(weight = "bold", size=12)
+     )
+   ) %>%
+  opt_row_striping() %>%
+  opt_table_lines("none") %>% 
+  fmt_percent(
+    columns = c(FGPer, FTPer),
+    decimals = 1
+  ) %>%
+  tab_style(
+    style = list(
+      cell_fill(color = "blue"),
+      cell_text(color = "gold")
+    ),
+    locations = cells_body(
+      rows = Team == "Golden State Warriors*"
+    )
+  )
+```
+
+Down to the final eight teams in the playoffs, the warriors take a 1-0 lead against the number one seed Memphis Grizzlies in Memphis. The Warriors are a scary team to look at during the playoffs especially if Curry is making eight threes in a game. They have shown dominance in the playoffs, even during the first round against a tough Denver Nuggets team with the reigning MVP and in the running for another one, Nikola Jokic.   
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+mg <- playoffs %>% filter(Team == "Memphis Grizzlies*")
+mb <- playoffs %>% filter(Team == "Milwaukee Bucks*")
+gs <- playoffs %>% filter(Team == "Golden State Warriors*")
+bc <- playoffs %>% filter(Team == "Boston Celtics*")
+dm <- playoffs %>% filter(Team == "Dallas Mavericks*")
+mh <- playoffs %>% filter(Team == "Miami Heat*")
+px <- playoffs %>% filter(Team == "Phoenix Suns*")
+pa <- playoffs %>% filter(Team == "Philadelphia 76ers*")
+
+ggplot() + 
+  geom_point(data = playoffs, aes(x= `FGPer`, y= `FTPer`), color="grey") +
+  geom_point(data = mg, aes(x= `FGPer`, y= `FTPer`)) +
+  geom_point(data = mb, aes(x= `FGPer`, y= `FTPer`)) +
+  geom_point(data = gs, aes(x= `FGPer`, y= `FTPer`)) +
+  geom_point(data = bc, aes(x= `FGPer`, y= `FTPer`)) +
+  geom_point(data = dm, aes(x= `FGPer`, y= `FTPer`)) +
+  geom_point(data = mh, aes(x= `FGPer`, y= `FTPer`)) +
+  geom_point(data = px, aes(x= `FGPer`, y= `FTPer`)) +
+  geom_point(data = pa, aes(x= `FGPer`, y= `FTPer`)) +
+  geom_text(data = gs, aes(x=`FGPer` +.001, y = `FTPer` +.01, label = Team)) +
+  geom_text(data = px, aes(x=`FGPer` -.002, y = `FTPer` +.003, label = Team)) +
+  geom_text(data = mh, aes(x=`FGPer` -.002, y = `FTPer` -.003, label = Team)) +
+  labs(title = "Phoenix Suns are the favorites to win", subtitle = "Golden State not the best shooting team compared to the last eight teams in playoffs", x="By: Noah Tassello | Source: Sports Reference") +
+  theme_minimal() +
+  theme(
+   plot.title = element_text(size = 16, face = "bold"),
+    axis.title = element_text(size = 8), 
+    plot.subtitle = element_text(size=10), 
+    panel.grid.minor = element_blank()
+)
+```
+
+The two number one seeds are not far apart from the Warriors, but can the Warriors compete against a healthy Devin Booker and arguably one of the best point guards in the game Chris Paul? If they do beat the Suns, can they compete against a Miami Heat team that is ready to win themselves a championship?
+
+Note: 
+
+
